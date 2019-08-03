@@ -1,51 +1,64 @@
 <template>
+
+
+
     <v-dialog
             v-model="value"
             max-width="400px"
             persistent
     >
         <v-card :style="style">
-            <v-card-text
+            <v-card-text class="pb-0"
             >
-                    <v-layout row wrap >
+                <v-container fluid class="pa-2 pb-0">
+                   <v-layout row wrap >
                     <v-flex v-if="$slots.img" xs12 sm3 md3 >
                         <slot name="img"></slot>
                     </v-flex>
                     <v-flex :class="[$slots.img ? 'xs12 sm9 md9' : 'xs12 sm12 md12' ]" >
-                        <div class="body-2 mt-3 text-xs-left">{{text}}</div>
-                        <div class="text-xs-left" style="color:rgba(0,0,0,0.54);">{{subtext}}</div>
-                        <slot name="input"></slot>
+                        <div class="body-1 mt-3 text-left font-weight-light" style="color: rgba(0, 0, 0, 0.87) !important;">{{text}}</div>
+                        <div class="text-left" style="color:rgba(0,0,0,0.54);">{{subtext}}</div>
+                        <slot name="dialoginputs"></slot>
 
                     </v-flex>
                 </v-layout>
+
+                </v-container>
             </v-card-text>
             <v-divider></v-divider>
-            <v-card-actions class="pa-0 ma-0">
+            <v-card-actions class="pa-0 ma-0 layout">
+                <v-flex v-if="ifcancel">
                 <v-btn
-                        v-if="ifcancel"
+
                         :color="color"
-                        :flat="hoverCancel"
+                        :text="hoverCancel"
                         :dark="!hoverCancel"
                         small
-                        class="pa-0 ma-0 elevation-0"
                         block
+                        style="border-radius: 0px"
+                        class="pa-0 ma-0 elevation-0"
                         @mouseover="overbutton('cancel')"
                         @mouseleave="leave('cancel')"
                         @click="cancel()"
                 >{{cancelText}}</v-btn>
+                </v-flex>
                 <v-divider vertical v-if="ifcancel && ifconfirm"></v-divider>
-                <v-btn
-                        v-if="ifconfirm"
+                <v-flex  v-if="ifconfirm">
+                    <v-btn
+
                         :color="color"
-                        :flat="hoverConfirm"
+                        :text="hoverConfirm"
                         :dark="!hoverConfirm"
                         small
-                        class="pa-0 ma-0 elevation-0"
                         block
+                        style="border-radius: 0px"
+                        class="pa-0 ma-0 elevation-0"
                         @mouseover="overbutton('confirm')"
                         @mouseleave="leave('confirm')"
                         @click="confirm()"
                 >{{confirmText}}</v-btn>
+                </v-flex>
+
             </v-card-actions>
         </v-card>
     </v-dialog>

@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-app id="app">
         <v-content>
             <v-container>
@@ -22,12 +22,23 @@
                                 contain
                         ></v-img>
                     </template>
-                    <template v-slot:input>
-                        <d-input v-model="textinput"
-                                 type="password"
-                                 icon="lock"
-                                 color="#2196F3"
-                        ></d-input>
+                    <template v-slot:dialoginputs>
+                        <v-form ref="form">
+                            <dialog-input v-model="textinput"
+                                     :rules="nameRules"
+                                     type="password"
+                                     :counter="10"
+                                     icon="lock"
+                                     color="#2196F3"
+                            ></dialog-input>
+                            <!--<v-text-field
+                                    label="Name"
+                                    v-model="textinput"
+                                    :rules="nameRules"
+                                    :counter="10"
+                                    required
+                            ></v-text-field>-->
+                        </v-form>
                     </template>
                 </dialog-system>
                 <img alt="Vue logo" src="./assets/logo.png">
@@ -40,22 +51,31 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import HelloWorld from "./components/HelloWorld.vue";
-    import DialogSystem from "@/components/DialogSystem.vue";
-    import DInput from "@/components/DInput.vue";
+    import DialogSystem from "@/components/DialogSystem/DialogSystem.vue";
+    import DialogInput from "@/components/DialogInput/DialogInput.vue";
 
     @Component({
         components: {
             HelloWorld,
             DialogSystem,
-            DInput,
+            DialogInput,
         },
     })
     export default class App extends Vue {
         public dialog2: boolean = true;
         public textinput: string = "";
+        nameRules: any= [
+            (v: any) => !!v || 'amir ',
+            (v: any) => (v && v.length <= 15) || 'Name must be less than 15v characters',
+        ];
 
         public confirmar() {
-
+            const ref: any =this.$refs
+            if (ref.form.validate()) {
+                console.log('si')
+            }else {
+                console.log('no')
+            }
         }
 
         public cancelar() {
